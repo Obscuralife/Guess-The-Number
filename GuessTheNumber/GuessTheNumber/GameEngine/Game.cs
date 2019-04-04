@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GuessTheNumber.GameEngine;
+using GuessTheNumber.PlayerStuff;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,7 @@ namespace GuessTheNumber
 
         public static void Play()
         {
+
             Greetings();
             ReadyToPlay();
         }
@@ -23,8 +26,9 @@ namespace GuessTheNumber
         {
             Yellow();
             Console.WriteLine("Greetings you in the game 'Guess the number'");
-            Console.WriteLine("Press 'C' to create a new account");
-            Console.WriteLine("Press 'S' to sign up");
+            Console.WriteLine("Press 'U' to sign up");
+            Console.WriteLine("Press 'I' to sign in");
+            Console.WriteLine("Press 'Esc' to exit");
         }
 
         private static void ReadyToPlay()
@@ -32,10 +36,9 @@ namespace GuessTheNumber
             ConsoleKeyInfo key = Console.ReadKey(true);
             switch (key.Key)
             {
-                case ConsoleKey.C:
+                case ConsoleKey.U:
                     {
                         Green();
-
                         Console.WriteLine("\nEnter the name");
                         var name = Console.ReadLine();
                         Console.WriteLine("Enter the password");
@@ -52,12 +55,14 @@ namespace GuessTheNumber
                         }
                         Yellow();
                         Console.WriteLine($"Welcome {name}");
+                        Console.WriteLine("\nLet's start to play");
+                        White();
+                        Engine.Method();
                         break;
                     }
-                case ConsoleKey.S:
+                case ConsoleKey.I:
                     {
                         Green();
-
                         Console.WriteLine("\nEnter the name");
                         var name = Console.ReadLine();
                         Console.WriteLine("Enter the password");
@@ -74,11 +79,24 @@ namespace GuessTheNumber
                         }
                         Yellow();
                         Console.WriteLine($"Welcome {name}");
+                        Console.WriteLine("\nLet's start to play");
+                        White();
+                        Engine.Method();
+                        break;
+                    }
+                case ConsoleKey.Escape:
+                    {
+                        Environment.Exit(0);
                         break;
                     }
                 default:
-                    break;
+                    {
+                        ReadyToPlay();
+                        break;
+                    }
             }
+
+            Yellow();
             Console.WriteLine("Again?(Y/N)");
             key = Console.ReadKey(true);
 
@@ -86,11 +104,15 @@ namespace GuessTheNumber
             {
                 case ConsoleKey.Y:
                     {
-                        ReadyToPlay();
+                        Console.Clear();
+                        Play();
                         break;
                     }
                 default:
-                    break;
+                    {
+                        Environment.Exit(0);
+                        break;
+                    }
             }
         }
     }

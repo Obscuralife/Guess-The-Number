@@ -46,10 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Authorization.cs" />
-    <Compile Include="JsonDataBase.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="PlayerStuff\Account.cs" />
+    <Compile Include="PlayerStuff\Authorization.cs" />
+    <Compile Include="DataBase\Comparer.cs" />
+    <Compile Include="DataBase\JsonDataBase.cs" />
+    <Compile Include="GameEngine\Engine.cs" />
+    <Compile Include="GameEngine\Game.cs" />
+    <Compile Include="PlayerStuff\History.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,5 +60,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

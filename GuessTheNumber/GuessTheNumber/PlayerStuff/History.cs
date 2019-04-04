@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuessTheNumber
+namespace GuessTheNumber.PlayerStuff
 {
-    class Program
+    class History
     {
-        static void Main(string[] args)
-        {
-            Game.Play();
-        }
+        private static DateTime date;
     }
 }
