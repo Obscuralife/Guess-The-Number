@@ -8,12 +8,7 @@ namespace GuessTheNumber.PlayerStuff
 {
     class PlayerHistory
     {
-        public Dictionary<string, string> History { get; private set; }
-        public PlayerHistory()
-        {
-            History = new Dictionary<string, string>();
-        }
-        public void AddAction(string message) => History.Add(DateTime.Now.ToString("hh:mm:ss:ms"), message);
-
+        public List<string> History { get; private set; } = new List<string>();
+        public void AddAction(string message) => History.Add(DateTime.Now.ToString("hh:mm:ss ") + message);
     }
 }

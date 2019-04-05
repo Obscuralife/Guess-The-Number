@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GuessTheNumber.GameEngine
@@ -15,8 +16,8 @@ namespace GuessTheNumber.GameEngine
 
         public static void TryToGuess()
         {
-            var minValue = 0;
             var maxValue = random.Next(10, 21);
+            var minValue = 0;
             var expectedNumber = random.Next(minValue, maxValue + 1);
             attempts = (int)Math.Log(maxValue, 2);
             Console.WriteLine($"Try to guess a number from 0 to {maxValue}. You have {attempts} attempts");
@@ -35,18 +36,18 @@ namespace GuessTheNumber.GameEngine
                     Console.ForegroundColor = ConsoleColor.White;
                     if (expectedNumber > estimatedNumber)
                     {
+                        history.AddAction($" Entered number({estimatedNumber}) LESS than expected({expectedNumber})");
                         Console.WriteLine($"\tYour entered number LESS than expected. You have {attempts} attempts");
-                        history.AddAction($"entered number LESS than expected");
                     }
                     else if (expectedNumber < estimatedNumber)
                     {
+                        history.AddAction($" Entered number Bigger({estimatedNumber}) than expected({expectedNumber})");
                         Console.WriteLine($"\tYour entered number BIGGER than expected. You have {attempts} attempts");
-                        history.AddAction($"entered number Bigger than expected");
                     }
                     else
                     {
-                        Console.WriteLine("\tCongratulations, you won!");
                         history.AddAction($"Won!!");
+                        Console.WriteLine("\tCongratulations, you won!");
                         break;
                     }
                 }
@@ -57,7 +58,7 @@ namespace GuessTheNumber.GameEngine
                 if (attempts == 0)
                 {
                     Console.WriteLine("You loose");
-                    history.AddAction($"\tLoooooseee :=(  -- Expected number is {expectedNumber} --");
+                    history.AddAction($"    Loooooseee :=(  -- Expected number is {expectedNumber} --");
                 }
             }
             Console.WriteLine($"Expected number is: {expectedNumber}");
