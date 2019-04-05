@@ -52,7 +52,7 @@
     <Compile Include="DataBase\JsonDataBase.cs" />
     <Compile Include="GameEngine\Engine.cs" />
     <Compile Include="GameEngine\Game.cs" />
-    <Compile Include="PlayerStuff\History.cs" />
+    <Compile Include="PlayerStuff\PlayerHistory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

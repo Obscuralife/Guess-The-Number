@@ -13,7 +13,6 @@ namespace GuessTheNumber.PlayerStuff
         public string Password { get; private set; }
         public string CreatedTime { get; private set; }
         
-
         public Account(string name, string password, ulong id = 0)
         {
             this.Id = id;

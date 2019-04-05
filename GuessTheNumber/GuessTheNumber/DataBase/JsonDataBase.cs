@@ -8,7 +8,8 @@ namespace GuessTheNumber.DataBase
     static class JsonDataBase
     {
         private static string repository;
-        public static Account currentAccount { get; private set; }
+        private static Account currentAccount;
+        private static string currentAccountPath;
         private static Comparer comparer = new Comparer();
 
         static JsonDataBase()
@@ -18,15 +19,20 @@ namespace GuessTheNumber.DataBase
             Directory.CreateDirectory(repository);
         }
 
-        public static void AddToCurrentAccount()
+        public static void AddHistoryToCurrentAccount(PlayerHistory history)
         {
-
+            var jsonHistory = JsonConvert.SerializeObject(history, Formatting.Indented);
+            using (var stream = new StreamWriter(currentAccountPath,true))
+            {
+                stream.WriteLine(jsonHistory);
+            }
         }
+
         public static bool SaveAccount(Account account)
         {
             var newAccount = new Account(account.Name, account.Password, GetId());
             var fileName = $"User {newAccount.Id}.json";
-            var filePath = Path.Combine(repository, fileName);
+            currentAccountPath = Path.Combine(repository, fileName);
 
             if (Contains(account))
             {
@@ -35,10 +41,9 @@ namespace GuessTheNumber.DataBase
             else
             {
                 var json = JsonConvert.SerializeObject(newAccount);
-                using (var stream = new StreamWriter(filePath))
+                using (var stream = new StreamWriter(currentAccountPath))
                 {
                     stream.WriteLine(json);
-                    stream.WriteLine("History:");
                 }
                 currentAccount = newAccount;
                 return true;
@@ -52,13 +57,16 @@ namespace GuessTheNumber.DataBase
                 Account temp = null;
                 using (var sr = new StreamReader(Path.Combine(repository, item)))
                 {
-                    var json = sr.ReadToEnd();
+                    var json = sr.ReadLine();
                     temp = JsonConvert.DeserializeObject<Account>(json);
                 }
                 if (account.Name == temp.Name)
                 {
+                    currentAccountPath = Path.Combine(repository, item);
+                    currentAccount = account;
                     return true;
                 }
+
             }
             return false;
         }
@@ -70,11 +78,13 @@ namespace GuessTheNumber.DataBase
                 Account temp = null;
                 using (var sr = new StreamReader(Path.Combine(repository, item)))
                 {
-                    var json = sr.ReadToEnd();
+                    var json = sr.ReadLine();
                     temp = JsonConvert.DeserializeObject<Account>(json);
                 }
                 if (name == temp.Name && password == temp.Password)
                 {
+                    currentAccountPath = Path.Combine(repository, item);
+                    currentAccount = temp;
                     return true;
                 }
             }

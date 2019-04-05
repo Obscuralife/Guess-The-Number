@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GuessTheNumber
 {
-    class Game
+    static class Game
     {
         private static void Green() => Console.ForegroundColor = ConsoleColor.Green;
         private static void Yellow() => Console.ForegroundColor = ConsoleColor.Yellow;
@@ -17,7 +17,6 @@ namespace GuessTheNumber
 
         public static void Play()
         {
-
             Greetings();
             ReadyToPlay();
         }
@@ -26,9 +25,8 @@ namespace GuessTheNumber
         {
             Yellow();
             Console.WriteLine("Greetings you in the game 'Guess the number'");
-            Console.WriteLine("Press 'U' to sign up");
-            Console.WriteLine("Press 'I' to sign in");
-            Console.WriteLine("Press 'Esc' to exit");
+            Console.WriteLine("Press 'U' to Create new account");
+            Console.WriteLine("Press 'I' to Log in");
         }
 
         private static void ReadyToPlay()
@@ -57,7 +55,7 @@ namespace GuessTheNumber
                         Console.WriteLine($"Welcome {name}");
                         Console.WriteLine("\nLet's start to play");
                         White();
-                        Engine.Method();
+                        Engine.TryToGuess();
                         break;
                     }
                 case ConsoleKey.I:
@@ -81,12 +79,7 @@ namespace GuessTheNumber
                         Console.WriteLine($"Welcome {name}");
                         Console.WriteLine("\nLet's start to play");
                         White();
-                        Engine.Method();
-                        break;
-                    }
-                case ConsoleKey.Escape:
-                    {
-                        Environment.Exit(0);
+                        Engine.TryToGuess();
                         break;
                     }
                 default:
@@ -108,7 +101,7 @@ namespace GuessTheNumber
                         Play();
                         break;
                     }
-                default:
+                case ConsoleKey.N:
                     {
                         Environment.Exit(0);
                         break;
