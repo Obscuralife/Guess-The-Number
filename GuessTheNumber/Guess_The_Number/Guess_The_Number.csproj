@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F3E7F8B-4AB1-43C6-9D14-5F3233194819}</ProjectGuid>
+    <ProjectGuid>{BF1AB4FC-3378-4E29-8127-961EB4777B4E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>GuessTheNumber</RootNamespace>
-    <AssemblyName>GuessTheNumber</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <RootNamespace>Guess_The_Number</RootNamespace>
+    <AssemblyName>Guess_The_Number</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -37,6 +37,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,13 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerStuff\Account.cs" />
-    <Compile Include="PlayerStuff\Authorization.cs" />
-    <Compile Include="DataBase\Comparer.cs" />
     <Compile Include="DataBase\JsonDataBase.cs" />
-    <Compile Include="GameEngine\Engine.cs" />
-    <Compile Include="GameEngine\Game.cs" />
+    <Compile Include="GameEngine\ColorEngine.cs" />
+    <Compile Include="GameEngine\GameHandler.cs" />
+    <Compile Include="GameEngine\TheGame.cs" />
     <Compile Include="PlayerStuff\PlayerHistory.cs" />
+    <Compile Include="PlayerStuff\UserAccount.cs" />
+    <Compile Include="PlayerStuff\UsersValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
