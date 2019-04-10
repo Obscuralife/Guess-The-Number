@@ -7,9 +7,10 @@ namespace Guess_The_Number.GameEngine
 {
     class TheGame
     {
-        public JsonDataBase DataBase { get; private set; }
-        public UsersValidator UserContext { get; private set; }
+        public static JsonDataBase DataBase { get; private set; }
+        public UsersValidator Validator { get; private set; }
         public GameHandler Handler { get; private set; }
+        public UserAccount CurrentUserAccount { get; private set; }
 
         public TheGame()
         {
@@ -53,7 +54,7 @@ namespace Guess_The_Number.GameEngine
                 case ConsoleKey.Y:
                     {
                         Console.Clear();
-                        Start();
+                        new TheGame().Start();
                         break;
                     }
                 case ConsoleKey.N:
@@ -64,9 +65,10 @@ namespace Guess_The_Number.GameEngine
             }
         }
 
-        private void Again(Action action)
+        private bool Again(Action action)
         {
-            Console.WriteLine($"{action.Method.Name} again? (Y/N)" );
+            var actionName = (action.Method.Name == "TryToLogIn") ? "Log in" : "Create account";
+            Console.WriteLine($"{actionName} again? (Y/N)");
             switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.Y:
@@ -81,73 +83,82 @@ namespace Guess_The_Number.GameEngine
                     }
                 default: Again(action); break;
             }
+            return true;
+        }
+
+        private UserAccount GetAccountWithData()
+        {
+            ColorEngine.Green();
+            Console.WriteLine("\nEnter the name");
+            Console.Write(">> ");
+            var name = Console.ReadLine();
+
+            Console.WriteLine("Enter the password");
+            Console.Write(">> ");
+            var password = Console.ReadLine();
+
+            return new UserAccount(name, password);
         }
 
         private void TryToLogIn()
         {
-            ColorEngine.Green();
-            Console.WriteLine("\nEnter the name");
-            Console.Write(">> ");
-            var name = Console.ReadLine();
-
-            Console.WriteLine("Enter the password");
-            Console.Write(">> ");
-            var password = Console.ReadLine();
-
-            var oldUser = new UserAccount(name, password);
-            UserContext = new UsersValidator(oldUser);
-
-            if (!UserContext.IsValid())
-            {
-                Console.WriteLine("Try Again to Log In");
-                Again(TryToLogIn);
-            }
-            else if (!DataBase.IsDbContains(oldUser))
-            {
-                ColorEngine.Red();
-                Console.WriteLine("The username or password is incorrect. Press any button to start over");
-                Again(TryToLogIn);
-            }
-
             ColorEngine.Yellow();
-            Console.WriteLine($"Welcome {name}");
-            Console.WriteLine("\nLet's start to play");
-            ColorEngine.White();
+            Console.WriteLine(new string('*', 10) + "Login:" + new string('*', 10));
+
+            CurrentUserAccount = GetAccountWithData();
+            Validator = new UsersValidator(CurrentUserAccount);
+
+            if (Validator.IsValid())
+            {
+                if (!DataBase.IsDbContains(CurrentUserAccount))
+                {
+                    ColorEngine.Red();
+                    Console.WriteLine("This account already exists.");
+                    Again(TryToLogIn);
+                }
+                else
+                {
+                    ColorEngine.Yellow();
+                    Console.Write($"Welcome {CurrentUserAccount.Name}...");
+                    Console.WriteLine("\tLet's start to play");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Again(TryToLogIn);
+            }
         }
 
         private void TryToLogUp()
         {
-            ColorEngine.Green();
-
-            Console.WriteLine("\nEnter the name");
-            Console.Write(">> ");
-            var name = Console.ReadLine();
-
-            Console.WriteLine("Enter the password");
-            Console.Write(">> ");
-            var password = Console.ReadLine();
-
-            var newUser = new UserAccount(name, password);
-            UserContext = new UsersValidator(newUser);
-
-            if (!UserContext.IsValid())
-            {
-                Console.WriteLine("Try Again to Create account");
-                Again(TryToLogUp);
-            }
-
-            bool isSuccessfully = DataBase.CreateNewUserAccount(newUser);
-            if (!isSuccessfully)
-            {
-                ColorEngine.Red();
-                Console.WriteLine("This account already exists. Press any button to start over");
-                Console.ReadKey();
-                Again(TryToLogUp);
-            }
             ColorEngine.Yellow();
-            Console.WriteLine($"Welcome {name}");
-            Console.WriteLine("\nLet's start to play");
-            ColorEngine.White();
+            Console.WriteLine(new string('*', 10) + "Create account:" + new string('*', 10));
+
+            CurrentUserAccount = GetAccountWithData();
+            Validator = new UsersValidator(CurrentUserAccount);
+
+            if (Validator.IsValid())
+            {
+                bool ifCreationIsSuccessfully = DataBase.CreateNewUserAccount(CurrentUserAccount);
+                if (ifCreationIsSuccessfully)
+                {
+                    ColorEngine.Yellow();
+                    Console.Write($"Welcome {CurrentUserAccount.Name}...");
+                    Console.WriteLine("\tLet's start to play");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    ColorEngine.Red();
+                    Console.WriteLine("This account already exists.");
+                    Again(TryToLogUp);
+                }
+            }
+            else
+            {
+                Again(TryToLogUp);
+            }
         }
 
         private void Greetings()
@@ -156,6 +167,7 @@ namespace Guess_The_Number.GameEngine
             Console.WriteLine("Greetings you in the game 'Guess the number'");
             Console.WriteLine("Press 'U' to Create new account");
             Console.WriteLine("Press 'I' to Log in");
+            Console.WriteLine();
         }
     }
 }

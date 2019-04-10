@@ -21,14 +21,7 @@ namespace Guess_The_Number.DataBase
             Directory.CreateDirectory(Repository);
         }
 
-        public static JsonDataBase GetDataBase()
-        {
-            if (_this is null)
-            {
-                _this = new JsonDataBase();
-            }
-            return _this;
-        }
+        public static JsonDataBase GetDataBase() => (_this is null) ? _this = new JsonDataBase() : _this;
 
         public bool CreateNewUserAccount(UserAccount account)
         {
@@ -63,7 +56,7 @@ namespace Guess_The_Number.DataBase
 
         public bool IsDbContains(UserAccount account)
         {
-            foreach (var item in Directory.GetFiles(Repository))
+            foreach (var item in Directory.GetFiles(Repository).Where(p => p.Contains(".json")))
             {
                 UserAccount temp = null;
                 using (var sr = new StreamReader(Path.Combine(Repository, item)))
@@ -83,7 +76,7 @@ namespace Guess_The_Number.DataBase
 
         private ulong GetId()
         {
-            var files = (Directory.GetFiles(Repository)).Where(p => p.Contains("UserAccount"));
+            var files = (Directory.GetFiles(Repository)).Where(p => p.Contains("UserAccount") && p.Contains(".json"));
             return (ulong)files.LongCount() + 1;
         }
     }

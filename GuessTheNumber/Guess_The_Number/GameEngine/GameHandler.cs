@@ -26,6 +26,7 @@ namespace Guess_The_Number.Game_Engine
 
         public void TryToGuess()
         {
+            ColorEngine.White();
             Console.WriteLine($"Try to guess a number from 0 to {MaxValue}. You have {Attempts} attempts");
 
             var history = new PlayerHistory();
@@ -85,7 +86,7 @@ namespace Guess_The_Number.Game_Engine
             }
             Console.WriteLine();
 
-            JsonDataBase.GetDataBase().AddHistoryToCurrentAccount(history);
+            TheGame.DataBase.AddHistoryToCurrentAccount(history);
         }
     }
 
