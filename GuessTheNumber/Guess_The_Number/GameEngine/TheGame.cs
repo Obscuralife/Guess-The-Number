@@ -89,7 +89,7 @@ namespace Guess_The_Number.GameEngine
         private UserAccount GetAccountWithData()
         {
             ColorEngine.Green();
-            Console.WriteLine("\nEnter the name");
+            Console.WriteLine("Enter the name");
             Console.Write(">> ");
             var name = Console.ReadLine();
 
@@ -103,6 +103,7 @@ namespace Guess_The_Number.GameEngine
         private void TryToLogIn()
         {
             ColorEngine.Yellow();
+            Console.WriteLine();
             Console.WriteLine(new string('*', 10) + "Login:" + new string('*', 10));
 
             CurrentUserAccount = GetAccountWithData();
@@ -133,6 +134,7 @@ namespace Guess_The_Number.GameEngine
         private void TryToLogUp()
         {
             ColorEngine.Yellow();
+            Console.WriteLine();
             Console.WriteLine(new string('*', 10) + "Create account:" + new string('*', 10));
 
             CurrentUserAccount = GetAccountWithData();
@@ -167,7 +169,6 @@ namespace Guess_The_Number.GameEngine
             Console.WriteLine("Greetings you in the game 'Guess the number'");
             Console.WriteLine("Press 'U' to Create new account");
             Console.WriteLine("Press 'I' to Log in");
-            Console.WriteLine();
         }
     }
 }
